@@ -1,0 +1,16 @@
+    <!-- @if (accessToken$ | async; as accessToken) {
+      <app-shell
+        [usuarioAutenticado]="accessToken.usuarioAutenticado"
+        (logoutRequisitado)="logout()"
+      >
+        <router-outlet></router-outlet>
+      </app-shell>
+    } @else { -->
+      <!-- <main class="container-fluid py-3">
+        <router-outlet></router-outlet>
+      </main> -->
+    <!-- } -->
+
+    <app-shell>
+      <router-outlet></router-outlet>
+    </app-shell>

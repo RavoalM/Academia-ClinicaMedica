@@ -1,0 +1,126 @@
+// 1. Configuração do host e do container
+// Garante que o componente ocupe todo o espaço disponível
+:host {
+  height: 100%;
+  display: block;
+}
+
+.sidenav-container {
+  height: 100vh;
+  /* Usa a cor de fundo do tema para o container */
+  background: var(--mat-sys-surface-container-low);
+}
+
+// 2. Estilização da Sidenav (Precisa de ::ng-deep)
+/* ATENÇÃO: Usamos ::ng-deep pois a mat-sidenav é renderizada fora do escopo do componente. */
+:host ::ng-deep .mat-sidenav {
+  /* Largura inicial e transição */
+  width: 250px;
+  transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  
+  /* Borda sutil usando variável de outline do tema M3 */
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  
+  /* Garante que o fundo da sidenav respeite o tema */
+  background-color: var(--mat-sys-surface-container-low);
+
+  /* Estilos para o estado COLLAPSED */
+  &.collapsed {
+    width: 70px;
+    
+    /* Esconde o texto principal do cabeçalho da sidenav */
+    .navbar-text {
+      display: none;
+      opacity: 0;
+    }
+    
+    /* Esconde o texto dos itens de navegação e ajusta o padding */
+    .sidenav-text {
+      display: none;
+    }
+
+    /* Centraliza o ícone do item quando colapsado */
+    .sidenav-item {
+      padding: 0 16px !important;
+      justify-content: center !important;
+    }
+  }
+}
+
+// 3. Toolbar Interno da Sidenav (Logo e Toggle)
+:host ::ng-deep mat-sidenav mat-toolbar {
+  /* Remove o fundo e sombra padrão, mantendo a consistência */
+  background: inherit;
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  .navbar-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-surface); /* Cor do texto */
+  }
+
+  .collapse-toggle {
+    /* Garante que o botão de colapsar esteja alinhado à direita e seja compacto */
+    order: 3; /* Coloca no final */
+    min-width: 40px;
+    padding: 0;
+  }
+}
+
+// 4. Itens de Navegação (mat-nav-list)
+:host ::ng-deep .mat-nav-list .sidenav-item {
+  /* Adiciona um pequeno arredondamento e margem para itens flutuarem */
+  border-radius: 8px;
+  margin: 4px 8px;
+  height: 48px;
+  
+  /* Estado ativo (usa routerLinkActive) */
+  &.mat-list-item-active {
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+    font-weight: 500;
+    
+    mat-icon {
+      /* Garante que o ícone ativo tenha a cor de alto contraste */
+      color: var(--mat-sys-on-primary-container);
+    }
+  }
+  
+  /* Ícones dentro dos itens */
+  mat-icon {
+    /* Cor padrão do ícone: sutil no tema */
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// 5. Toolbar Principal (Main Toolbar)
+/* Target: mat-sidenav-content > mat-toolbar (sem ::ng-deep, pois está no template) */
+mat-sidenav-content > mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Alto z-index para garantir que fique acima de tudo */
+  /* O background é definido pela propriedade color="primary" */
+}
+
+// 6. Conteúdo Principal (mat-sidenav-content)
+/* Garante que o conteúdo não fique escondido sob o sticky toolbar */
+mat-sidenav-content {
+  background: var(--mat-sys-surface);
+  height: 100%;
+  overflow: auto;
+  
+  /* Padding superior para compensar a altura do main-toolbar (desktop: ~64px) */
+  padding-top: 64px; 
+
+  /* Responsividade: Ajuste para a altura do toolbar mobile (~56px) */
+  @media screen and (max-width: 599px) {
+    padding-top: 56px; 
+  }
+}
