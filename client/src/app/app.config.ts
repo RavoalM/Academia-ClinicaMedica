@@ -4,6 +4,8 @@ import {
     ApplicationConfig, inject, provideBrowserGlobalErrorListeners, provideZonelessChangeDetection
 } from '@angular/core';
 import { CanActivateFn, provideRouter, Router, Routes } from '@angular/router';
+import { routes } from './app.routes';
+import { provideHttpClient } from '@angular/common/http';
 
 // import { provideAuth } from './components/auth/auth.provider';
 // import { AuthService } from './components/auth/auth.service';
@@ -29,36 +31,13 @@ import { CanActivateFn, provideRouter, Router, Routes } from '@angular/router';
 //   );
 // };
 
-export const routes: Routes = [
-  // { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-  // {
-  //   path: 'auth',
-  //   loadChildren: () => import('./components/auth/auth.routes').then((r) => r.authRoutes),
-  //   canActivate: [usuarioDesconhecidoGuard],
-  // },
-  // {
-  //   path: 'inicio',
-  //   loadComponent: () => import('./components/inicio/inicio').then((c) => c.Inicio),
-  //   canActivate: [usuarioAutenticadoGuard],
-  // },
-  // {
-  //   path: 'categorias',
-  //   loadChildren: () =>
-  //     import('./components/categorias/categoria.routes').then((r) => r.categoriaRoutes),
-  //   canActivate: [usuarioAutenticadoGuard],
-  // },
-  // {
-  //   path: 'notas',
-  //   loadChildren: () => import('./components/notas/nota.routes').then((r) => r.notaRoutes),
-  //   canActivate: [usuarioAutenticadoGuard],
-  // },
-];
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZonelessChangeDetection(),
     provideRouter(routes),
+    provideHttpClient()
 
     // provideNotifications(),
     // provideAuth(),
